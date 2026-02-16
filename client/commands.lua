@@ -3,6 +3,17 @@ local S = Translation[Lang].SuggestChat
 
 local StopAnimCommandCooldown = 0
 
+-- ฟังก์ชันสำหรับเรียกใช้ mtn_notify ฝั่ง Client
+local function SendNotify(text, duration, icon, title)
+    TriggerEvent("mtn_notify:send", {
+        title = title or "System",
+        description = text,
+        icon = icon or "tick",
+        placement = "middle-right", -- กำหนดตำแหน่งเป็น Middle Right
+        duration = duration or 4000
+    })
+end
+
 PlayerCommands = {
     hideui = {
         command = Config.CommandHideIU,
@@ -34,7 +45,8 @@ PlayerCommands = {
 
             local Timer = GetGameTimer()
             if (Timer - StopAnimCommandCooldown) < (Config.StopAnimCooldown * 1000) then
-                VorpNotification:NotifyRightTip(T.StopAnimCooldown, 4000)
+                -- แก้ไข Notify ตรงนี้
+                SendNotify(T.StopAnimCooldown, 4000, "warning", "Cooldown")
                 return
             end
 
@@ -54,9 +66,11 @@ PlayerCommands = {
             local pvp = CoreAction.Utils.TogglePVP()
 
             if pvp then
-                VorpNotification:NotifyRightTip(T.PVPNotifyOn, 4000)
+                -- แก้ไข Notify ตรงนี้ (เปิด PVP)
+                SendNotify(T.PVPNotifyOn, 4000, "sword", "PVP Mode") 
             else
-                VorpNotification:NotifyRightTip(T.PVPNotifyOff, 4000)
+                -- แก้ไข Notify ตรงนี้ (ปิด PVP)
+                SendNotify(T.PVPNotifyOff, 4000, "shield", "PVP Mode")
             end
         end,
         restricted = not Config.PVPToggle -- false means it should not display, so we have to negate with the not

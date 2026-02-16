@@ -1,5 +1,16 @@
 local T <const> = Translation[Lang].MessageOfSystem
 
+-- ฟังก์ชันสำหรับเรียกใช้ mtn_notify
+local function SendNotify(source, text, duration, icon, title)
+    TriggerClientEvent("mtn_notify:send", source, {
+        title = title or "System",
+        description = text,
+        icon = icon or "tick",
+        placement = "middle-right", -- กำหนดตำแหน่งเป็น Middle Right ตามที่ต้องการ
+        duration = duration or 4000
+    })
+end
+
 local function checkUser(target)
     return CoreFunctions.getUser(tonumber(target))
 end
@@ -78,21 +89,21 @@ local function registerCommands(value, key)
         local group = CoreFunctions.getUser(_source).getGroup -- admin group
 
         if not checkAce(value.aceAllowed, _source) and not checkGroupAllowed(value.groupAllowed, group) then
-            return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
+            return SendNotify(_source, T.NoPermissions, 4000, "warning", "Error")
         end
 
         if value.userCheck then
             if not checkUser(args[1]) then
-                return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.userNonExistent, 4000)
+                return SendNotify(_source, Translation[Lang].Notify.userNonExistent, 4000, "warning", "Error")
             end
         end
 
         if value.jobAllow and not checkJobAllowed(value.jobAllow, _source) then
-            return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
+            return SendNotify(_source, T.NoPermissions, 4000, "warning", "Error")
         end
 
         if not checkArgs(args, (key == "addJob" and #args == 5) and #value.suggestion + 1 or #value.suggestion) then
-            return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
+            return SendNotify(_source, Translation[Lang].Notify.ReadSuggestion, 4000, "warning", "Info")
         end
 
         local arguments = { source = _source, args = args, rawCommand = rawCommand, config = value }
@@ -129,8 +140,8 @@ function SetGroup(data)
 
     user.setGroup(newgroup)
     sendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000, "tick")
+    SendNotify(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000, "tick")
 end
 
 function SetGroupCharacter(data)
@@ -140,8 +151,8 @@ function SetGroupCharacter(data)
 
     Character.setGroup(newgroup)
     sendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000, "tick")
+    SendNotify(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000, "tick")
 end
 
 --ADDJOBS
@@ -156,14 +167,14 @@ function AddJob(data)
     Character.setJobGrade(jobgrade)
     Character.setJobLabel(joblabel)
     sendDiscordLogs(data.config.webhook, data, data.source, newjob, jobgrade)
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddJob, newjob, target, jobgrade), 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddJob1, newjob, jobgrade), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.AddJob, newjob, target, jobgrade), 4000, "tick")
+    SendNotify(target, string.format(Translation[Lang].Notify.AddJob1, newjob, jobgrade), 4000, "tick")
 end
 
 --ADDMONEY
 function AddMoney(data)
     if type(tonumber(data.args[2])) ~= "number" then
-        return CoreFunctions.NotifyObjective(data.source, Translation[Lang].Notify.error, 4000)
+        return SendNotify(data.source, Translation[Lang].Notify.error, 4000, "warning", "Error")
     end
 
     local target = tonumber(data.args[1])
@@ -174,8 +185,8 @@ function AddMoney(data)
     Character.addCurrency(montype, quantity)
 
     sendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddMoney, quantity, target), 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddMoney1, quantity), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.AddMoney, quantity, target), 4000, "leaderboard_cash")
+    SendNotify(target, string.format(Translation[Lang].Notify.AddMoney1, quantity), 4000, "leaderboard_cash")
 end
 
 --ADDITEMS
@@ -194,16 +205,16 @@ function AddItems(data)
     end
 
     if not canCarry then
-        return CoreFunctions.NotifyObjective(data.source, Translation[Lang].Notify.invfull, 4000)
+        return SendNotify(data.source, Translation[Lang].Notify.invfull, 4000, "warning", "Full")
     end
 
     if not canCarry2 then
-        return CoreFunctions.NotifyObjective(data.source, Translation[Lang].Notify.cantcarry, 4000)
+        return SendNotify(data.source, Translation[Lang].Notify.cantcarry, 4000, "warning", "Cant Carry")
     end
 
     VORPInv:addItem(target, item, count)
     sendDiscordLogs(data.config.webhook, data, data.source, item, count)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddItems, item, count), 4000)
+    SendNotify(target, string.format(Translation[Lang].Notify.AddItems, item, count), 4000, "tick")
 end
 
 --ADDWEAPONS
@@ -212,21 +223,21 @@ function AddWeapons(data)
     local weaponHash = tostring(data.args[2])
     local canCarry = exports.vorp_inventory:canCarryWeapons(target, 1, nil, weaponHash)
     if not canCarry then
-        return CoreFunctions.NotifyObjective(data.source, T.cantCarry, 4000)
+        return SendNotify(data.source, T.cantCarry, 4000, "warning")
     end
 
     local result = exports.vorp_inventory:createWeapon(target, weaponHash, {})
     if not result then
-        return CoreFunctions.NotifyRightTip(target, T.Wepnotexist, 4000)
+        return SendNotify(target, T.Wepnotexist, 4000, "warning")
     end
     sendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
-    CoreFunctions.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
+    SendNotify(target, Translation[Lang].Notify.AddWeapons, 4000, "tick")
 end
 
 --DELCURRENCY
 function RemmoveCurrency(data)
     if type(tonumber(data.args[2])) ~= "number" then
-        return CoreFunctions.NotifyObjective(data.source, Translation[Lang].Notify.error, 4000)
+        return SendNotify(data.source, Translation[Lang].Notify.error, 4000, "warning", "Error")
     end
 
     local target = tonumber(data.args[1])
@@ -236,7 +247,7 @@ function RemmoveCurrency(data)
 
     Character.removeCurrency(montype, quantity)
     sendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.removedcurrency, quantity, target), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.removedcurrency, quantity, target), 4000, "tick")
 end
 
 --REVIVEPLAYERS
@@ -244,7 +255,7 @@ function RevivePlayer(data)
     local target = tonumber(data.args[1])
     CoreFunctions.Player.Revive(target)
     sendDiscordLogs(data.config.webhook, data, target, "", "")
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.revived, target), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.revived, target), 4000, "tick")
 end
 
 --TELPORTPLAYER
@@ -264,7 +275,7 @@ function DeleteWagons(data)
     local radius = tonumber(data.args[1])
 
     if radius < 1 then
-        return CoreFunctions.NotifyRightTip(data.source, Translation[Lang].Notify.radius, 4000)
+        return SendNotify(data.source, Translation[Lang].Notify.radius, 4000, "warning")
     end
     TriggerClientEvent("vorp:deleteVehicle", data.source, radius)
     sendDiscordLogs(data.config.webhook, data, data.source, "", "")
@@ -275,7 +286,7 @@ function HealPlayers(data)
     local target = tonumber(data.args[1])
     CoreFunctions.Player.Heal(target)
     sendDiscordLogs(data.config.webhook, data, target, "", "")
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.healedPlayer, target), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.healedPlayer, target), 4000, "tick")
 end
 
 --BANPLAYERS
@@ -283,7 +294,7 @@ function BanPlayers(data)
     local targetsteam = tonumber(data.args[1])
     local steamid = GetPlayerIdentifierByType(data.source, 'steam')
     if steamid and steamid == targetsteam then
-        return CoreFunctions.NotifyRightTip(data.source, T.CantBanSelf, 4000)
+        return SendNotify(data.source, T.CantBanSelf, 4000, "warning")
     end
 
     local banTime = tonumber(data.args[2]:match("%d+"))
@@ -355,7 +366,7 @@ function AddCharCanCreateMore(data)
     if not Character then return end
     Character.setCharperm(number)
     sendDiscordLogs(data.config.webhook, data, data.source, "", "")
-    CoreFunctions.NotifyRightTip(data.source, T.AddChar .. target, 4000)
+    SendNotify(data.source, T.AddChar .. target, 4000, "tick")
 end
 
 --MODIFY CHARACTER NAME
@@ -368,7 +379,7 @@ function ModifyCharName(data)
     Character.setFirstname(firstname)
     Character.setLastname(lastname)
     sendDiscordLogs(data.config.webhook, data, data.source, firstname, lastname)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.namechange, firstname, lastname), 4000)
+    SendNotify(target, string.format(Translation[Lang].Notify.namechange, firstname, lastname), 4000, "tick")
 end
 
 --MYJOB
@@ -378,7 +389,7 @@ function MyJob(data)
     local job       = Character.job
     local grade     = Character.jobGrade
     local label     = Character.jobLabel
-    CoreFunctions.NotifyRightTip(_source, T.myjob .. label .. " (" .. job .. ") " .. T.mygrade .. grade, 5000)
+    SendNotify(_source, T.myjob .. label .. " (" .. job .. ") " .. T.mygrade .. grade, 5000, "tick")
 end
 
 function SetExp(data)
@@ -388,8 +399,8 @@ function SetExp(data)
     local Character = CoreFunctions.getUser(target).getUsedCharacter
     Character.setSkills(skillName, exp)
     sendDiscordLogs(data.config.webhook, data, data.source, skillName, exp)
-    CoreFunctions.NotifyRightTip(data.source, Translation[Lang].Notify.Exp, 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.GivenExp, exp, skillName), 4000)
+    SendNotify(data.source, Translation[Lang].Notify.Exp, 4000, "tick")
+    SendNotify(target, string.format(Translation[Lang].Notify.GivenExp, exp, skillName), 4000, "tick")
 end
 
 --my exp
@@ -398,13 +409,13 @@ function MyExp(data)
     local User = CoreFunctions.getUser(_source).getUsedCharacter
     local skills = User.skills
     if not skills[data.args[1]] then
-        return CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.NotFound, 4000)
+        return SendNotify(_source, Translation[Lang].Notify.NotFound, 4000, "warning", "Error")
     end
     local exp = skills[data.args[1]].Exp
     local lvl = skills[data.args[1]].Level
     local label = skills[data.args[1]].Label
     local text = Translation[Lang].Notify.Level
-    CoreFunctions.NotifyRightTip(_source, text:format(label, lvl, exp, data.args[1]), 4000)
+    SendNotify(_source, text:format(label, lvl, exp, data.args[1]), 4000, "leaderboard_xp")
 end
 
 -- command to set multi job max allowed
@@ -418,8 +429,8 @@ function SetMultiJobMaxAllowed(data)
     user.setMaxJobsAllowed(maxJobs)
 
     sendDiscordLogs(data.config.webhook, data, _source, maxJobs, "")
-    CoreFunctions.NotifyRightTip(_source, string.format(Translation[Lang].Notify.MultiJob.MaxMJob, maxJobs), 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.MultiJob.MaxMJobSet, maxJobs), 4000)
+    SendNotify(_source, string.format(Translation[Lang].Notify.MultiJob.MaxMJob, maxJobs), 4000, "tick")
+    SendNotify(target, string.format(Translation[Lang].Notify.MultiJob.MaxMJobSet, maxJobs), 4000, "tick")
 end
 
 -- new funtion to add multijobs to users
@@ -435,12 +446,12 @@ function AddMultiJob(data)
     local maxJobs <const> = user.maxJobsAllowed
     local character <const> = user.getUsedCharacter
     local count <const> = character.getMultiJobsCount()
-    if count >= maxJobs then return CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.MultiJob.ReachedMaxMJob, 4000) end
+    if count >= maxJobs then return SendNotify(_source, Translation[Lang].Notify.MultiJob.ReachedMaxMJob, 4000, "warning") end
 
     character.setMultiJob(job, grade, label)
     sendDiscordLogs(data.config.webhook, data, _source, job, grade)
-    CoreFunctions.NotifyRightTip(_source, string.format(Translation[Lang].Notify.MultiJob.YouAddedMJob, job, target), 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.MultiJob.YouGiveMJob, job), 4000)
+    SendNotify(_source, string.format(Translation[Lang].Notify.MultiJob.YouAddedMJob, job, target), 4000, "tick")
+    SendNotify(target, string.format(Translation[Lang].Notify.MultiJob.YouGiveMJob, job), 4000, "tick")
 end
 
 -- remove multijob from user
@@ -453,11 +464,11 @@ function RemoveMultiJob(data)
 
     local character <const> = user.getUsedCharacter
     local result <const> = character.removeMultiJob(job)
-    if not result then return CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.MultiJob.InvalidMJob, 4000) end
+    if not result then return SendNotify(_source, Translation[Lang].Notify.MultiJob.InvalidMJob, 4000, "warning") end
 
     sendDiscordLogs(data.config.webhook, data, data.source, job, "")
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.MultiJob.YouRemovedMJob, job, target), 4000)
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.MultiJob.YouLostMJob, job), 4000)
+    SendNotify(data.source, string.format(Translation[Lang].Notify.MultiJob.YouRemovedMJob, job, target), 4000, "tick")
+    SendNotify(target, string.format(Translation[Lang].Notify.MultiJob.YouLostMJob, job), 4000, "tick")
 end
 
 local usersJobCoolDown <const> = {}
@@ -470,18 +481,18 @@ function SwitchMultiJob(data)
 
     local value <const> = Character.multiJobs
     if not value or not next(value) then
-        return CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.MultiJob.DontHaveMJob, 4000)
+        return SendNotify(_source, Translation[Lang].Notify.MultiJob.DontHaveMJob, 4000, "warning")
     end
 
     if not value[job] then
-        return CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.MultiJob.DontHaveThisMJob, 4000)
+        return SendNotify(_source, Translation[Lang].Notify.MultiJob.DontHaveThisMJob, 4000, "warning")
     end
 
     if usersJobCoolDown[_source] and usersJobCoolDown[_source] > os.time() then
         local timeDiff <const> = usersJobCoolDown[_source] - os.time()
         local minutes <const> = math.floor(timeDiff / 60)
         local seconds <const> = timeDiff % 60
-        return CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.MultiJob.CoolDownMJob .. minutes .. " minutes and " .. seconds .. " seconds", 4000)
+        return SendNotify(_source, Translation[Lang].Notify.MultiJob.CoolDownMJob .. minutes .. " minutes and " .. seconds .. " seconds", 4000, "warning")
     end
     usersJobCoolDown[_source] = os.time() + Config.SwitchJobCoolDown * 60
 
@@ -489,7 +500,7 @@ function SwitchMultiJob(data)
     Character.setJob(job)
     Character.setJobGrade(value[job].grade)
     Character.setJobLabel(value[job].label)
-    CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.MultiJob.YouSwitchedMjob .. value[job].label .. " Job", 4000)
+    SendNotify(_source, Translation[Lang].Notify.MultiJob.YouSwitchedMjob .. value[job].label .. " Job", 4000, "tick")
     sendDiscordLogs(data.config.webhook, data, _source, value[job].label, value[job].grade)
 end
 

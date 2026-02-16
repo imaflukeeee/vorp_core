@@ -6,99 +6,99 @@ Lang = "Thai"
 Config = Config or {}
 
 Config = {
-    autoUpdateDB          = true, -- Enables automatic database updates.
+    autoUpdateDB          = true, -- เปิดใช้งานการอัปเดตฐานข้อมูลอัตโนมัติ
 
-    ReportCrashes         = true, -- Reports crashes to https://monitor.gtp-dev.com login in here to create your API KEY , by doing this you will help the community to improve the server stability and fix crashes faster
+    ReportCrashes         = true, -- รายงานการแครช (Crash) ไปยัง https://monitor.gtp-dev.com ให้ล็อกอินเพื่อสร้าง API KEY ของคุณ การทำเช่นนี้จะช่วยให้ชุมชนปรับปรุงความเสถียรของเซิร์ฟเวอร์และแก้บั๊กได้เร็วขึ้น
 
-    API_KEY               = "",   -- API key for crash reporting. Get your API key at https://monitor.gtp-dev.com to allow more requests make a donation in the website
+    API_KEY               = "",   -- API key สำหรับรายงานการแครช รับ API key ได้ที่ https://monitor.gtp-dev.com (บริจาคในเว็บไซต์เพื่อเพิ่มจำนวนคำขอได้)
 
-    -- (IF YOU HAVE WHITELIST ENABLED DONT ENABLE THIS)--
-    DeleteFromUsersTable  = true, -- this will delete from users table if character does not exist "optimising the queries"
+    -- (ถ้าคุณเปิดใช้ WHITELIST ห้ามเปิดใช้งานส่วนนี้)--
+    DeleteFromUsersTable  = true, -- สิ่งนี้จะลบข้อมูลจากตาราง users หากไม่มีตัวละครอยู่จริง (เพื่อเพิ่มประสิทธิภาพการค้นหาข้อมูล / Optimize Query)
     -----------------------------------------------------
 
-    CanRespawn            = function() -- use this function to add your own logic if player can respawn or not
-        -- add your logic here
-        return true                    -- dont touch
+    CanRespawn            = function() -- ใช้ฟังก์ชันนี้เพื่อเพิ่มตรรกะของคุณเองว่าผู้เล่นสามารถเกิดใหม่ได้หรือไม่
+        -- ใส่ตรรกะของคุณตรงนี้
+        return true                    -- ห้ามแก้ไขส่วนนี้
     end,
     --=============================================
     --        STARTING CONFIGURATION             --
     --=============================================
 
-    initGold              = 0.0,          -- Initial gold amount for new players.
+    initGold              = 0.0,          -- จำนวนทองเริ่มต้นสำหรับผู้เล่นใหม่
 
-    initMoney             = 200.0,        -- Initial money amount for new players.
+    initMoney             = 200.0,        -- จำนวนเงินเริ่มต้นสำหรับผู้เล่นใหม่
 
-    initRol               = 0.0,          -- Initial role-play currency amount for new players.
+    initRol               = 0.0,          -- จำนวนค่าเงิน Role-play เริ่มต้นสำหรับผู้เล่นใหม่
 
-    initInvCapacity       = 9999.0,         -- Initial number of character inventory weight for new players. for old characters you must change in the database if you dont ave a new server
+    initInvCapacity       = 9999.0,         -- น้ำหนักกระเป๋าเริ่มต้นสำหรับผู้เล่นใหม่ (สำหรับตัวละครเก่าต้องไปแก้ในฐานข้อมูลหากไม่ได้เปิดเซิร์ฟเวอร์ใหม่)
 
-    initXp                = 0,            -- Initial experience points for new players.
+    initXp                = 0,            -- ค่าประสบการณ์ (XP) เริ่มต้นสำหรับผู้เล่นใหม่
 
-    initJob               = "unemployed", -- Default job for new players. Recommended not to change.
+    initJob               = "unemployed", -- อาชีพเริ่มต้นสำหรับผู้เล่นใหม่ (แนะนำว่าไม่ต้องเปลี่ยน)
 
-    initJobGrade          = 0,            -- Default job grade for new players. Recommended not to change.
+    initJobGrade          = 0,            -- ระดับขั้นของอาชีพเริ่มต้นสำหรับผู้เล่นใหม่ (แนะนำว่าไม่ต้องเปลี่ยน)
 
-    initGroup             = "user",       -- Default user group for new players. Recommended not to change.
+    initGroup             = "user",       -- กลุ่มผู้ใช้งานเริ่มต้น (ยศ) สำหรับผู้เล่นใหม่ (แนะนำว่าไม่ต้องเปลี่ยน)
 
-    initJobLabel          = "Unemployed", -- Default job label for new players. Recommended not to change.
+    initJobLabel          = "Unemployed", -- ชื่ออาชีพที่แสดงผลสำหรับผู้เล่นใหม่ (แนะนำว่าไม่ต้องเปลี่ยน)
 
-    Whitelist             = false,        -- Enable if not using TxAdmin's whitelist system.
+    Whitelist             = false,        -- เปิดใช้งานถ้าคุณไม่ได้ใช้ระบบ Whitelist ของ TxAdmin
 
-    SavePlayersStatus     = false,        -- Future deprecated. Advised not to use, as it will be removed.
+    SavePlayersStatus     = false,        -- ฟังก์ชันนี้จะถูกยกเลิกในอนาคต แนะนำว่าไม่ควรเปิดใช้ เพราะจะถูกลบออกเร็วๆ นี้
 
-    maxHealth             = 10,           -- Maximum health for players. 10 is full, 0 is empty.
+    maxHealth             = 10,           -- เลือดสูงสุดของผู้เล่น (10 คือเต็ม, 0 คือหมด)
 
-    maxStamina            = 10,           -- Maximum stamina for players. 10 is full, 0 is empty.
+    maxStamina            = 10,           -- สเตมิน่าสูงสุดของผู้เล่น (10 คือเต็ม, 0 คือหมด)
 
-    PVP                   = true,         -- Enables player vs player combat.
+    PVP                   = true,         -- เปิดใช้งานระบบต่อสู้ระหว่างผู้เล่น (PVP)
 
-    PVPToggle             = false,        -- Allows players to toggle their PVP status.
+    PVPToggle             = false,        -- อนุญาตให้ผู้เล่นเปิด/ปิดสถานะ PVP ของตนเองได้
 
-    CommandOnOffPVP       = 'pvp',        -- Command to toggle PVP status, requires PVPToggle to be true.
+    CommandOnOffPVP       = 'pvp',        -- คำสั่งสำหรับเปิด/ปิด PVP (ต้องตั้งค่า PVPToggle เป็น true ก่อน)
 
-    savePlayersTimer      = 10,           -- Interval in minutes for automatically saving all players to the database.
+    savePlayersTimer      = 10,           -- ระยะเวลาเป็นนาที สำหรับการบันทึกข้อมูลผู้เล่นทุกคนลงฐานข้อมูลอัตโนมัติ
 
-    showplayerIDwhenfocus = true,         -- Shows player Steam name when focusing on them with RMB if set to false.
+    showplayerIDwhenfocus = true,         -- แสดงชื่อ Steam ของผู้เล่นเมื่อเล็งไปที่ตัวละคร (ถ้าตั้งเป็น false จะไม่โชว์)
 
-    disableAutoAIM        = true,         -- Disables auto-aim for controller players if set to false.
+    disableAutoAIM        = true,         -- ปิดการเล็งอัตโนมัติ (Auto-aim) สำหรับผู้เล่นที่ใช้จอยคอนโทรลเลอร์ (ถ้า false คือเปิด)
 
-    DisableCinematicMode  = false,        -- Set false to disable cineamtic mode/camera (While holding "V" key) (You should be aware that disabling cinematic mode may break functionality in scripts that use it.)
+    DisableCinematicMode  = false,        -- ตั้งเป็น false เพื่อปิดโหมดภาพยนตร์/กล้อง (เมื่อกดปุ่ม "V" ค้าง) (โปรดระวัง: การปิดโหมดภาพยนตร์อาจทำให้สคริปต์ที่ใช้ฟังก์ชันนี้ทำงานผิดปกติได้)
     --=============================================
     --          MULTICHARACTER SUPPORT           --
     --=============================================
 
-    SaveDiscordId         = true, -- Saves Discord ID in the character/user database upon joining/leaving.
+    SaveDiscordId         = true, -- บันทึก Discord ID ลงในฐานข้อมูลตัวละคร/ผู้ใช้ เมื่อเข้า/ออกจากเกม
 
-    MaxCharacters         = 1,    -- Maximum number of characters a player can create. when first join, for old users go to users table and change the number of characters there
+    MaxCharacters         = 1,    -- จำนวนตัวละครสูงสุดที่ผู้เล่นสามารถสร้างได้ (มีผลตอนเข้าครั้งแรก สำหรับผู้ใช้เก่าให้ไปแก้ที่ตาราง users ในฐานข้อมูล)
 
-    MaxCharacterJobs      = 1,    -- Maximum number of jobs a player can have. for multijob system, this is for new players, for old change in database column max_jobs
+    MaxCharacterJobs      = 1,    -- จำนวนอาชีพสูงสุดที่ผู้เล่นมีได้ (สำหรับระบบ Multijob, มีผลกับผู้เล่นใหม่ ส่วนผู้เล่นเก่าแก้ในฐานข้อมูลคอลัมน์ max_jobs)
 
-    SwitchJobCoolDown     = 1,   -- Cool down time in minutes for switching jobs.
+    SwitchJobCoolDown     = 1,   -- เวลาคูลดาวน์เป็นนาทีสำหรับการเปลี่ยนอาชีพ
 
     --=============================================
-    --             UI CORE SETTINGS              --
+    --            UI CORE SETTINGS               --
     --=============================================
 
-    HideOnlyDEADEYE       = true,  -- Hides only the Dead Eye core in the UI.
+    HideOnlyDEADEYE       = true,  -- ซ่อนเฉพาะวง Core ของ Dead Eye ใน UI
 
-    HidePlayersCore       = true, -- Hides player cores in the UI.
+    HidePlayersCore       = true, -- ซ่อนวง Core ของผู้เล่นใน UI
 
-    HideHorseCores        = false, -- Hides horse cores in the UI.
+    HideHorseCores        = false, -- ซ่อนวง Core ของม้าใน UI
 
     --=============================================
     --          WEBHOOK CONFIGURATIONS           --
-    --     Refer to commands.config for usage.   --
+    --     ดูวิธีใช้ได้ที่ commands.config       --
     --=============================================
 
-    webhookColor          = 16711680,                            -- Color for embeds in Discord webhooks.
+    webhookColor          = 16711680,                                    -- สีของแถบ Embed ใน Discord Webhook
 
-    name                  = "VORP",                              -- Name displayed in webhook embeds.
+    name                  = "VORP",                                      -- ชื่อที่แสดงใน Webhook Embed
 
-    logo                  = "https://via.placeholder.com/30x30", -- Logo URL for webhook embeds.
+    logo                  = "https://via.placeholder.com/30x30", -- URL ของโลโก้สำหรับ Webhook Embed
 
-    footerLogo            = "https://via.placeholder.com/30x30", -- Footer logo URL for webhook embeds.
+    footerLogo            = "https://via.placeholder.com/30x30", -- URL ของโลโก้ด้านล่าง (Footer) สำหรับ Webhook Embed
 
-    Avatar                = "https://via.placeholder.com/30x30", -- Avatar URL for webhook embeds.
+    Avatar                = "https://via.placeholder.com/30x30", -- URL ของรูปโปรไฟล์ (Avatar) สำหรับ Webhook Embed
 
 
     --=============================================
@@ -106,92 +106,92 @@ Config = {
     --=============================================
 
 
-    HideUi                   = true,      -- Shows or hides the overall UI.
+    HideUi                = true,      -- แสดงหรือซ่อน UI ทั้งหมด
 
-    HideGold                 = true,      -- Disables the Gold UI for all players.
+    HideGold              = true,      -- ปิดการแสดงผล ทอง (Gold) สำหรับผู้เล่นทุกคน
 
-    HideMoney                = true,      -- Disables the Money UI for all players.
+    HideMoney             = true,      -- ปิดการแสดงผล เงิน (Money) สำหรับผู้เล่นทุกคน
 
-    HideLevel                = true,      -- Disables the Level UI for all players.
+    HideLevel             = true,      -- ปิดการแสดงผล เลเวล (Level) สำหรับผู้เล่นทุกคน
 
-    HideID                   = true,      -- Disables the ID UI for all players.
+    HideID                = true,      -- ปิดการแสดงผล ID สำหรับผู้เล่นทุกคน
 
-    HideTokens               = true,      -- Disables the Token UI for all players.
+    HideTokens            = true,      -- ปิดการแสดงผล Token สำหรับผู้เล่นทุกคน
 
-    HidePVP                  = true,      -- Disables the PVP UI for all players.
+    HidePVP               = true,      -- ปิดการแสดงผล PVP สำหรับผู้เล่นทุกคน
 
-    UIPosition               = 'TopRight', -- Sets the UI position on the screen. Options are 'TopRight', 'TopLeft', 'BottomRight', 'BottomLeft', 'MiddleRight', 'TopMiddle', 'BottomMiddle'.
+    UIPosition            = 'TopRight', -- กำหนดตำแหน่ง UI บนหน้าจอ ตัวเลือก: 'TopRight'(ขวาบน), 'TopLeft'(ซ้ายบน), 'BottomRight'(ขวาล่าง), 'BottomLeft'(ซ้ายล่าง), 'MiddleRight'(ขวากลาง), 'TopMiddle'(กลางบน), 'BottomMiddle'(กลางล่าง)
 
-    UILayout                 = 'Column',   -- Sets the UI layout, options are 'Row' or 'Column'.
+    UILayout              = 'Column',   -- กำหนดรูปแบบการจัดวาง UI ตัวเลือกคือ 'Row' (แนวนอน) หรือ 'Column' (แนวตั้ง)
 
-    HideWithRader            = true,       -- UI hides when the radar (minimap) is hidden.
+    HideWithRader         = true,       -- ซ่อน UI เมื่อเรดาร์ (Minimap) ถูกซ่อน
 
-    OpenAfterRader           = true,       -- UI shows when the radar (minimap) reappears.
+    OpenAfterRader        = true,       -- แสดง UI เมื่อเรดาร์ (Minimap) ปรากฏขึ้นอีกครั้ง
 
-    CloseOnDelay             = false,      -- UI automatically closes after a set time.
+    CloseOnDelay          = false,      -- UI จะปิดเองอัตโนมัติหลังจากเวลาที่กำหนด
 
-    CloseOnDelayMS           = 10000,      -- Time in milliseconds before the UI auto-closes, 10000 equals 10 seconds.
+    CloseOnDelayMS        = 10000,      -- เวลาเป็นมิลลิวินาทีก่อนที่ UI จะปิดเอง (10000 เท่ากับ 10 วินาที)
 
-    CommandHideIU            = 'hideUi',   -- Command to hide all UI elements, useful for screenshots.
+    CommandHideIU         = 'hideUi',   -- คำสั่งเพื่อซ่อน UI ทั้งหมด (มีประโยชน์สำหรับการถ่ายรูป)
 
-    CommandToogleUI          = 'toggleUi', -- Command to toggle the visibility of VORP UI elements.
+    CommandToogleUI       = 'toggleUi', -- คำสั่งเพื่อเปิด/ปิดการมองเห็น VORP UI
 
-    CommandClearAnim         = 'stopAnim', -- Command to stop animations if a player is stuck.
+    CommandClearAnim      = 'stopAnim', -- คำสั่งเพื่อหยุดอนิเมชั่นหากผู้เล่นค้าง
 
-    StopAnimCooldown         = 5,          -- Cooldown time to reuse the command to stop animations. (Second)
+    StopAnimCooldown      = 5,          -- เวลาคูลดาวน์ในการใช้คำสั่งหยุดอนิเมชั่น (วินาที)
 
     --=============================================
     --            MAP CONFIGURATIONS             --
     --=============================================
 
-    mapTypeOnFoot            = 3,     -- Radar type when on foot. 0 = Off, 1 = Regular, 2 = Expanded, 3 = Simple (compass).
+    mapTypeOnFoot         = 3,     -- ประเภทของเรดาร์เมื่อเดินเท้า 0 = ปิด, 1 = ปกติ, 2 = ขยาย, 3 = เรียบง่าย (เข็มทิศ)
 
-    mapTypeOnMount           = 3,     -- Radar type when on horse. Same options as on foot.
+    mapTypeOnMount        = 3,     -- ประเภทของเรดาร์เมื่อขี่ม้า (ตัวเลือกเหมือนตอนเดินเท้า)
 
-    enableTypeRadar          = false, -- Enables custom radar types if true, otherwise players use game settings.
-
-    --=============================================
-    --            LOADING SCREEN CONFIGURATIONS    --
-    --=============================================
-
-    UseInnitialLoadingScreen = true,  -- Enables the use of the initial game loading screen usually if you have a custom loading screen you could add this to false
-    -- USING THIS LOADING SCREEN WILL AFFECT HOW FAST THE PLAYER SPAWNS
-    Loadinscreen             = false, -- Enables loading screens during spawn this is the second loading screen after player choose a character
-
-    LoadinScreenTimer        = 10000, -- Duration of loading screens in milliseconds.
-
-    LoadingScreenPlayerInfo  = false, -- Enables showing player information on the loading screen (Player name, surname and job)
+    enableTypeRadar       = false, -- เปิดใช้เรดาร์แบบกำหนดเองข้างต้น (ถ้า false ผู้เล่นจะใช้การตั้งค่าของเกม)
 
     --=============================================
-    --            RESPAWN SETTINGS               --
+    --           LOADING SCREEN CONFIGURATIONS   --
     --=============================================
 
-    HealthOnRespawn          = 500,                                  -- Player health after respawning at a hospital (max is 500).
+    UseInnitialLoadingScreen = true,  -- เปิดใช้งานหน้าโหลดเกมตอนเริ่มต้น (ปกติถ้ามี Custom Loading Screen ให้ตั้งเป็น false)
+    -- การใช้ LOADING SCREEN นี้จะส่งผลต่อความเร็วในการเกิดของผู้เล่น
+    Loadinscreen             = false, -- เปิดใช้งานหน้าโหลดระหว่างรอเกิด (เป็นหน้าโหลดที่สองหลังจากเลือกตัวละครแล้ว)
 
-    HealthOnResurrection     = 100,                                  -- Player health after being resurrected (max is 500).
+    LoadinScreenTimer        = 10000, -- ระยะเวลาของหน้าโหลด (มิลลิวินาที)
 
-    RagdollOnResurrection    = true,                                 -- Enables ragdoll and revive effects upon resurrection.
+    LoadingScreenPlayerInfo  = false, -- แสดงข้อมูลผู้เล่นบนหน้าโหลด (ชื่อ, นามสกุล และอาชีพ)
 
-    HealthRecharge           = { enable = true, multiplier = 0.37 }, -- Auto-recharge for health, with a multiplier for speed.
+    --=============================================
+    --             RESPAWN SETTINGS              --
+    --=============================================
 
-    StaminaRecharge          = { enable = true, multiplier = 0.4 },  -- Auto-recharge for stamina, with a multiplier for speed.
+    HealthOnRespawn          = 500,                                  -- เลือดของผู้เล่นหลังจากเกิดใหม่ที่โรงพยาบาล (สูงสุดคือ 500)
 
-    RespawnTime              = 3,                                   -- Time in seconds before a player can respawn.
+    HealthOnResurrection     = 100,                                  -- เลือดของผู้เล่นหลังจากถูกชุบชีวิต (สูงสุดคือ 500)
 
-    RespawnKey               = 0xDFF812F9,                           -- Key code for respawning (default is 'E').
+    RagdollOnResurrection    = true,                                 -- เปิดเอฟเฟกต์ล้มตัว (Ragdoll) และเอฟเฟกต์ตอนฟื้นเมื่อถูกชุบ
 
-    RespawnKeyTime           = 5000,                                 -- Time in milliseconds to hold the respawn key.
+    HealthRecharge           = { enable = true, multiplier = 0.37 }, -- การรีเจนเลือดอัตโนมัติ พร้อมตัวคูณความเร็ว
 
-    CombatLogDeath           = true,                                 -- Combat loggers respawn in a dead state instead of alive.
+    StaminaRecharge          = { enable = true, multiplier = 0.4 },  -- การรีเจนสเตมิน่าอัตโนมัติ พร้อมตัวคูณความเร็ว
 
-    UseControlsCamera        = false,                                -- Allows dead or carried players to move the camera with WASD (resource intensive).
+    RespawnTime              = 3,                                    -- เวลาเป็นวินาทีก่อนที่ผู้เล่นจะกดเกิดใหม่ได้
 
-    UseDeathHandler          = false,                                 -- Keeps default death handling unless you have a custom system.
+    RespawnKey               = 0xDFF812F9,                           -- รหัสปุ่มสำหรับการเกิดใหม่ (ค่าเริ่มต้นคือ 'E')
 
-    Hospitals                = {                                     -- Spawn points for players respawning at hospitals.
+    RespawnKeyTime           = 5000,                                 -- เวลาที่ต้องกดปุ่มเกิดใหม่ค้างไว้ (มิลลิวินาที)
+
+    CombatLogDeath           = true,                                 -- ผู้เล่นที่กดออกเกมระหว่างต่อสู้ (Combat Log) จะเกิดมาในสถานะตายแทนที่จะรอด
+
+    UseControlsCamera        = false,                                -- อนุญาตให้ผู้เล่นที่ตายหรือถูกอุ้ม หมุนกล้องได้ด้วยปุ่ม WASD (กินทรัพยากรเครื่อง)
+
+    UseDeathHandler          = false,                                -- ใช้ระบบจัดการความตายแบบเดิม เว้นแต่คุณจะมีระบบกำหนดเอง
+
+    Hospitals                = {                                     -- จุดเกิดสำหรับผู้เล่นที่เกิดใหม่ที่โรงพยาบาล
         Valentine = {
             name = "Valentine",
-            pos = vector4(-283.83, 806.4, 119.38, 321.76), -- Vector4 coordinates: x, y, z, heading.
+            pos = vector4(-283.83, 806.4, 119.38, 321.76), -- พิกัด Vector4: x, y, z, heading (ทิศทางหันหน้า)
         },
         SaintDenis = {
             name = "Saint Denis",
@@ -210,48 +210,48 @@ Config = {
             pos = vector4(1229.0, -1306.1, 76.9, 321.76),
         },
     },
-    ActiveEagleEye           = true,  -- Enables or disables Eagle Eye feature.
+    ActiveEagleEye           = true,  -- เปิดหรือปิดฟีเจอร์ Eagle Eye (ตาเหยี่ยว)
 
-    ActiveDeadEye            = false, -- Enables or disables Dead Eye feature.
+    ActiveDeadEye            = false, -- เปิดหรือปิดฟีเจอร์ Dead Eye
 
     --=============================================
     --         BAN SYSTEM CONFIGURATIONS         --
     --=============================================
 
-    DateTimeFormat           = "%d/%m/%y %H:%M:%S", -- Format for displaying date and time in ban notifications.
+    DateTimeFormat           = "%d/%m/%y %H:%M:%S", -- รูปแบบวันที่และเวลาในการแจ้งเตือนการแบน
 
-    TimeZone                 = " CET",              -- Set your server's timezone.
+    TimeZone                 = " CET",              -- ตั้งค่าโซนเวลาของเซิร์ฟเวอร์
 
-    TimeZoneDifference       = 1,                   -- Time difference from UTC, used in the banning system.
+    TimeZoneDifference       = 1,                   -- ผลต่างเวลาจาก UTC, ใช้ในระบบแบน
 
     --===========================================
     --    DISCORD RICH PRESENCE INTEGRATION    --
     --===========================================
-    appid                    = nil,                        -- Discord Application ID. Replace this with your own application's ID.
+    appid                    = nil,                        -- Discord Application ID (ใส่ ID ของแอปคุณเอง)
 
-    biglogo                  = "LOGOname",                 -- Name of the image asset to use for the large icon in the rich presence.
+    biglogo                  = "LOGOname",                 -- ชื่อไฟล์รูปภาพที่จะใช้เป็นไอคอนใหญ่ใน Rich Presence
 
-    biglogodesc              = " Redm Server Connect: ",   -- Description displayed when hovering over the large icon.
+    biglogodesc              = " Redm Server Connect: ",   -- คำอธิบายเมื่อเอาเมาส์ชี้ที่ไอคอนใหญ่
 
-    smalllogo                = "smallboy name",            -- Name of the image asset for the small icon in the rich presence. This is optional.
+    smalllogo                = "smallboy name",            -- ชื่อไฟล์รูปภาพที่จะใช้เป็นไอคอนเล็ก (ใส่หรือไม่ก็ได้)
 
-    smalllogodesc            = "Join us for a good time ", -- Description displayed when hovering over the small icon.
+    smalllogodesc            = "Join us for a good time ", -- คำอธิบายเมื่อเอาเมาส์ชี้ที่ไอคอนเล็ก
 
-    richpresencebutton       = "Join Discord",             -- Text displayed on the rich presence button.
+    richpresencebutton       = "Join Discord",             -- ข้อความที่แสดงบนปุ่ม Rich Presence
 
-    shownameandid            = true,                       -- Whether to display the player's Steam name and ID.
+    shownameandid            = true,                       -- แสดงชื่อ Steam และ ID ของผู้เล่นหรือไม่
 
-    Buttons                  = {                           -- Configuration for buttons shown in the Discord rich presence.
+    Buttons                  = {                           -- การตั้งค่าปุ่มที่แสดงใน Discord Rich Presence
         {
-            text = 'Join Discord!',                        -- Text displayed on the first button.
-            -- URL the first button directs to. Replace with your Discord invite link.
+            text = 'Join Discord!',                        -- ข้อความบนปุ่มที่ 1
+            -- ลิงก์ที่ปุ่มที่ 1 จะพาไป (ใส่ลิงก์ Discord ของคุณ)
             url = 'https://discord.gg/vorpcore'
 
         },
         {
-            text = 'Website', -- Text displayed on the second button.
-            -- URL the second button directs to. Fill in with your website URL.
-            url = ''          -- Example for Rich Presence Button
+            text = 'Website', -- ข้อความบนปุ่มที่ 2
+            -- ลิงก์ที่ปุ่มที่ 2 จะพาไป (ใส่ลิงก์เว็บไซต์ของคุณ)
+            url = ''          -- ตัวอย่างสำหรับปุ่ม Rich Presence
         }
     },
     --=============================================
